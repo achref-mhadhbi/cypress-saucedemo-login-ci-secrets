@@ -14,7 +14,11 @@ jobs:                              # NIVEAU 1
         with:
           # Ici on peut ajouter des options plus tard
           browser: chrome
-
+        env:
+          # ATTENTION : Le nom doit commencer par CYPRESS_ 
+          # pour que Cypress.env() le trouve tout seul !
+          CYPRESS_SAUCE_USERNAME: ${{ secrets.MUSERNAME }}
+          CYPRESS_SAUCE_PASSWORD: ${{ secrets.PASSWORD }}
       # --- POINT 8 : ARTIFACTS ---
       - name: Upload Screenshots   # NIVEAU 4
         uses: actions/upload-artifact@v4 # NIVEAU 5
