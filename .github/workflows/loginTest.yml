@@ -17,8 +17,8 @@ jobs:                              # NIVEAU 1
         env:
           # ATTENTION : Le nom doit commencer par CYPRESS_ 
           # pour que Cypress.env() le trouve tout seul !
-          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-          SAUCE_PASSWORD: ${{ secrets.SAUCE_PASSWORD }}
+          CYPRESS_SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          CYPRESS_SAUCE_PASSWORD: ${{ secrets.SAUCE_PASSWORD }}
       # --- POINT 8 : ARTIFACTS ---
       - name: Upload Screenshots   # NIVEAU 4
         uses: actions/upload-artifact@v4 # NIVEAU 5
