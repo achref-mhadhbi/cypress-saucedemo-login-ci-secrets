@@ -1,13 +1,14 @@
-describe('Login Sauce Demo', () => {
-  it('should login with valid credentials', () => {
-    cy.visit('https://www.saucedemo.com/')
+describe("Login Sauce Demo", () => {
+  it("should login with valid credentials", () => {
+    cy.visit("https://www.saucedemo.com/");
 
-    cy.fixture('user.json').then((user) => {
-      cy.get('#user-name').type(user.username)
-      cy.get('#password').type(user.password)
-    })
+    const username = Cypress.env("SAUCE_USERNAME");
+    const password = Cypress.env("SAUCE_PASSWORD");
 
-    cy.get('#login-button').click()
-    cy.url().should('include', '/inventory.html')  // Vérifie que login réussi
-  })
-})
+    cy.get("#user-name").type(username, { log: false });
+    cy.get("#password").type(password, { log: false });
+
+    cy.get("#login-button").click();
+    cy.url().should("include", "/inventory.html"); // Vérifie que login réussi
+  });
+});
