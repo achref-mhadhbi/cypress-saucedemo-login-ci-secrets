@@ -1,0 +1,24 @@
+name: CI Sauce Demo                # NIVEAU 1
+on: [push]                         # NIVEAU 1 (Déclencheur)
+
+jobs:                              # NIVEAU 1
+  cypress-run:                     # NIVEAU 2 (Nom du job)
+    runs-on: ubuntu-latest         # NIVEAU 3 (Le Runner)
+    
+    steps:                         # NIVEAU 3
+      - name: Checkout code        # NIVEAU 4 (Tiret !)
+        uses: actions/checkout@v4  # NIVEAU 5
+
+      - name: Cypress run          # NIVEAU 4
+        uses: cypress-io/github-action@v6 # NIVEAU 5 (L'action magique)
+        with:
+          # Ici on peut ajouter des options plus tard
+          browser: chrome
+
+      # --- POINT 8 : ARTIFACTS ---
+      - name: Upload Screenshots   # NIVEAU 4
+        uses: actions/upload-artifact@v4 # NIVEAU 5
+        if: failure()              # Ne s'exécute que si un test rate
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots/
