@@ -2,7 +2,7 @@ describe("Login Sauce Demo", () => {
   it("should login with valid credentials", () => {
     cy.visit("https://www.saucedemo.com/");
 
-    const username = Cypress.env("SAUCE_USERNAME");
+    const username = Cypress.env("AUCE_USERNAME");
     const password = Cypress.env("SAUCE_PASSWORD");
 
     cy.get("#user-name").type(username, { log: false });
