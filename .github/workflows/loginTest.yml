@@ -1,6 +1,8 @@
 name: CI Sauce Demo                # NIVEAU 1
 on: [push]                         # NIVEAU 1 (Déclencheur)
-
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:                              # NIVEAU 1
   cypress-run:                     # NIVEAU 2 (Nom du job)
     runs-on: ubuntu-latest         # NIVEAU 3 (Le Runner)
