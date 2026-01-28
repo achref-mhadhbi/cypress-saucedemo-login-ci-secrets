@@ -1,30 +1,65 @@
-name: CI Sauce Demo                # NIVEAU 1
-on: [push]                         # NIVEAU 1 (Déclencheur)
+# Nom du workflow (visible dans l’onglet Actions de GitHub)
+name: CI Sauce Demo
+
+# Déclenchement du pipeline :
+# Ici, le CI se lance automatiquement à chaque push sur la branche main
+on:
+  push:
+    branches: [main]
+
+# Concurrency :
+# Si plusieurs push sont faits rapidement sur la même branche,
+# GitHub annule l’ancien pipeline et garde seulement le dernier
+# (évite de gaspiller du temps et des runners)
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-jobs:                              # NIVEAU 1
-  cypress-run:                     # NIVEAU 2 (Nom du job)
-    runs-on: ubuntu-latest         # NIVEAU 3 (Le Runner)
-    
-    steps:                         # NIVEAU 3
-      - name: Checkout code        # NIVEAU 4 (Tiret !)
-        uses: actions/checkout@v4  # NIVEAU 5
 
-      - name: Cypress run          # NIVEAU 4
-        uses: cypress-io/github-action@v6 # NIVEAU 5 (L'action magique)
+jobs:
+  # Nom du job (scénario d’exécution)
+  cypress-run:
+
+    # Runner : machine virtuelle Linux fournie par GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : récupérer le code du repository
+      # Obligatoire pour avoir les fichiers de tests Cypress (.cy.js)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Étape 2 : exécution des tests Cypress
+      # Cette action fait automatiquement :
+      # - installation de Node.js
+      # - installation des dépendances (npm install)
+      # - installation du binaire Cypress
+      # - lancement de "npx cypress run" en mode headless
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         with:
-          # Ici on peut ajouter des options plus tard
+          # Navigateur utilisé pour les tests
           browser: chrome
         env:
-          # ATTENTION : Le nom doit commencer par CYPRESS_ 
-          # pour que Cypress.env() le trouve tout seul !
+          # Variables d’environnement Cypress
+          # Les secrets GitHub sont injectés de manière sécurisée
+          # Le préfixe CYPRESS_ est obligatoire pour être lu par Cypress.env()
           CYPRESS_SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           CYPRESS_SAUCE_PASSWORD: ${{ secrets.SAUCE_PASSWORD }}
-      # --- POINT 8 : ARTIFACTS ---
-      - name: Upload Screenshots   # NIVEAU 4
-        uses: actions/upload-artifact@v4 # NIVEAU 5
-        if: failure()              # Ne s'exécute que si un test rate
+
+      # Étape 3 : upload des screenshots en cas d’échec
+      # Utile pour analyser les bugs car il n’y a pas d’interface graphique en CI
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots/
+
+      # Étape 4 (optionnelle mais recommandée) : upload des vidéos
+      # Permet de revoir l’exécution complète du test en cas d’échec
+      - name: Upload Videos
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos/
