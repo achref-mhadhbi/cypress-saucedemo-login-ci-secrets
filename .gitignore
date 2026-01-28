@@ -11,4 +11,3 @@ cypress/screenshots/
 # Env files (secrets)
 .env
 
-cypress.env.json
