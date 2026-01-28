@@ -5,13 +5,14 @@ Ce projet démontre l'intégration de tests Cypress dans un pipeline **CI/CD** e
 ## 🌟 Points Forts du Projet
 
 * **GitHub Actions CI :** Automatisation des tests à chaque cycle de push.
+* **Cypress.env Implementation :** Gestion flexible des configurations via les variables d'environnement.
 * **Cypress.env Implementation :** Utilisation des variables d'environnement pour la flexibilité des tests.
-* **Educational Approach :** Démonstration de la gestion des identifiants entre local et CI.
 
 ## 🛠️ Stack Technique
 
 * **Framework :** Cypress
 * **CI/CD :** GitHub Actions
+* **Reporting :** Mochawesome (HTML)
 * **Cible :** Sauce Demo (Swag Labs)
 
 ## ⚠️ Sécurité & Bonnes Pratiques
