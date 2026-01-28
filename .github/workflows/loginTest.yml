@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout code          # Récupération du code du repo
         uses: actions/checkout@v4
 
-      - name: Cypress run
+      - name: Cypress run            # Lancement des tests Cypress en mode headless
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
@@ -23,21 +23,21 @@ jobs:
           CYPRESS_SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           CYPRESS_SAUCE_PASSWORD: ${{ secrets.SAUCE_PASSWORD }}
 
-      - name: Upload Screenshots
+      - name: Upload Screenshots     # Screenshots en cas d’échec
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots/
 
-      - name: Upload Videos
+      - name: Upload Videos          # Vidéos en cas d’échec
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-videos
           path: cypress/videos/
 
-      - name: Upload Mochawesome Reports
+      - name: Upload Mochawesome Reports  # Upload des rapports de test
         uses: actions/upload-artifact@v4
         if: always()
         with:
